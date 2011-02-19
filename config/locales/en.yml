@@ -1,0 +1,620 @@
+en:
+  language:
+    title: "English"
+  form:
+    loading: "Please wait..."
+    confirmation: "Confirm"
+    performing_task: "Please wait. Performing task..."
+    error:
+      title: "Error"
+      fill_form: "Please, fill the form."
+    info:
+      title: "Information"
+    button:
+      save: "Save"
+      cancel: "Cancel"
+      create: "Create"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              confirmation: "Password and confirmation are not equal."
+              too_short: "Password is too short (minimum symbols: {{count}})."
+            password_confirmation:
+              blank: "Password confirmation is required."
+            login:
+              taken: "User with such login is already exist."
+              too_short: "Login is too short (minimum symbols: {{count}})."
+        hardware_server:
+          attributes:
+            host:
+              taken: "Server with such name is already present."
+              connection: "Connection failed. Maybe daemon is not running."
+              ssh_connection: "Unable to establish SSH connection."
+              openvz_not_found: "OpenVZ virtualization was not found on the server."
+              ruby_not_found: "Ruby interpertator was not found on the server."
+            auth_key:
+              bad_auth: "Unable to authorize. Probably incorrect auth key."
+            daemon_port:
+              not_a_number: "Invalid port number."
+              greater_than: "Port number should be greater than {{count}}."
+              less_than: "Port number should be less than {{count}}."
+            root_password:
+              ssh_bad_auth: "SSH authorization failed."
+              empty: "This field is required."
+        virtual_server:
+          attributes:
+            ip_address:
+              invalid: "Incorrect IP address."
+              taken: "IP address was assigned already to the other server."
+            identity:
+              taken: "Such identity belongs to the other server."
+            password:
+              confirmation: "Password and confirmation are not equal."
+            nameserver:
+              invalid: "DNS server IP address is invalid."
+            host_name:
+              invalid: "Hostname is invalid."
+            search_domain:
+              invalid: "Search domains are invalid."
+            description:
+              invalid: "Description contains invalid characters."
+        server_template:
+          attributes:
+            name:
+              taken: "Server template with such name is already exist."
+        role:
+          attributes:
+            name:
+              taken: "Role with such name is already exist."
+  about:
+    copyright: "Copyright 2008-2010 SoftUnity."
+    right_reserved: "All Rights Reserved."
+    about_program: "About program"
+    author: "Main developer"
+    contributors: "Contributors"
+    contributors_list: "list"
+    web_site: "Web site"
+  login:
+    page_title: "Login"
+    window_title: "Log in to {{product}}"
+    username: "User name"
+    password: "Password"
+    remember_me: "Remember me"
+    button_login: "Log in"
+    locale: "Language"
+    bad_login: "Invalid login or password."
+    locked_user: "User is locked."
+  admin:
+    menu:
+      title: "Menu"
+      general:
+        title: "General"
+        dashboard: "Dashboard"
+        hardware_servers: "Physical servers"
+        virtual_servers: "Virtual servers"
+        my_profile: "My profile"
+        users: "Users"
+        requests: "Requests"
+        tasks: "Tasks"
+        event_log: "Events log"
+        logout: "Logout"
+      help:
+        title: "Help"
+        documentation: "Documentation"
+        support: "Support"
+    operations:
+      up_level: "Up Level"
+      search: "Search"
+    logout: "Are you sure you want to log out?"
+    search:
+      form:
+        title: "Search"
+        field:
+          query: "Query"
+        button:
+          search: "Search"
+    my_profile:
+      title: "My profile"
+      user_name: "User Name"
+      current_password: "Current Password"
+      new_password: "New Password"
+      confirm_password: "Confirm Password"
+      bad_current_password: "Invalid current password."
+      contact_name: "Contact Name"
+      email: "E-mail"
+    events:
+      internal_error: "Internal error: {{message}}"
+      hardware_server:
+        connect: "Physical server {{host}} was connected."
+        disconnect: "Physical server {{host}} was disconnected."
+        sync: "Server's {{host}} state was synchronized."
+        reboot: "Start rebooting of the server {{host}}."
+      virtual_server:
+        created: "Virtual server {{identity}} was created."
+        removed: "Virtual server {{identity}} was removed."
+        change_state_failed: "Failed to change state for virtual server {{identity}}; state: {{state}}; code: {{code}}."
+        updated: "Settings for virtual server {{identity}} were updated."
+        cloned: "Virtual server {{identity}} was cloned."
+        counter_reached: "Limit {{name}} was reached for virtual server {{identity}} on physical server {{host}}."
+      user:
+        login:
+          ok: "User {{login}} is logged in."
+          bad_password: "User {{login}} failed to login with incorrect password."
+          bad_login: "Attempt to login with unknown login name."
+          locked_user: "Locked user {{login}} tried to login."
+        logout: "User {{login}} is logged out."
+        removed: "User {{login}} was removed."
+        enabled: "User {{login}} was enabled."
+        disabled: "User {{login}} was disabled."
+        created: "User {{login}} was created."
+        updated: "User {{login}} was updated."
+        profile_updated: "User {{login}} profile was updated."
+      role:
+        removed: "Role {{name}} was removed."
+        created: "Role {{name}} was created."
+        updated: "Role {{name}} was updated."
+    tasks:
+      os_templates:
+        install: "OS templates installation on the server {{host}}."
+      backups:
+        create: "Backing up of virtual server #{{identity}} on physical server {{host}}."
+        restore: "Restoring of virtual server #{{identity}} on physical server {{host}}."
+    dashboard:
+      title: "Dashboard"
+      intro:
+        title: "Intro"
+        text: "OpenVZ Web Panel is a GUI web-based frontend for controlling of physical servers with OpenVZ virtualization technology."
+      profile:
+        title: "Profile"
+        text: "You logged in as {{login}}."
+      updates:
+        text: "New version is available: {{product}}."
+        update_command: "To perform the update need to run the following command: {{command}}"
+      stats_grid:
+        title: "Statistics"
+        column:
+          parameter: "Parameter"
+          value: "Value"
+        parameter:
+          panel_users: "Panel users"
+          hardware_servers: "Physical servers"
+          virtual_servers: "Virtual servers"
+          virtual_servers_running: "Running virtual servers"
+          virtual_servers_stopped: "Stopped virtual servers"
+          virtual_servers_expired: "Expired virtual servers"
+          opened_requests: "Opened requests"
+    hardware_servers:
+      title: "Physical Servers"
+      grid:
+        title: "Physical servers list"
+        column:
+          host_name: "Host name"
+          description: "Description"
+          virtual_servers: "Virtual Servers"
+        button:
+          connect: "Connect new server"
+          reconnect: "Reconnect server"
+          disconnect: "Disconnect server"   
+          details: "Details" 
+          sync: "Synchronization"
+          edit: "Change settings"
+          reboot: "Reboot"
+      form:
+        connect_server:
+          title: "Connect new physical server"
+          edit_title: "Change settings of physical server"
+          button_connect: "Connect"
+          field:
+            host_name: "Host name"
+            auth_key: "Auth key"
+            description: "Description"
+            daemon_port: "Service port"
+            root_password: "Root password"
+          fieldset:
+            additional_settings: "Additional settings"
+        disconnect_server:
+          sure_to_disconnect: "Are you sure you want to disconnect selected servers?"
+          deletion_failed: "Servers disconnection request failed."
+        sync:
+          sync_failed: "Unable to synchronize information on some physical servers."
+        reboot_server:
+          sure_to_reboot: "Selected servers will be unavailable during reboot. Are you sure you want to reboot them?"
+          reboot_failed: "Unable to start reboot on some servers."
+      show:
+        title: "Physical Server {{name}}"
+      top_toolbar:
+        os_templates: "OS Templates"
+        server_templates: "Server Templates"
+      stats:
+        title: "Physical server statistics"
+        column:
+          parameter: "Parameter"
+          value: "Value"
+        field:
+          os_version: "OS version"
+          cpu_load_average: "CPU load average"
+          disk_usage: "Disk usage, partition {{partition}}"
+          memory_usage: "Memory usage"
+        value:
+          disk_usage: "{{percent}}%, {{used}} of {{total}} / {{free}} free"
+          memory_usage: "{{percent}}%, {{used}} of {{total}} / {{free}} free"
+    virtual_servers:
+      title: "Virtual Servers"
+      limits:
+        unlimited: "unlimited"
+      grid:
+        title: "Virtual servers list"
+        column:
+          state: "State"
+          identity: "VEID"
+          ip_address: "IP Address"
+          host_name: "Host Name"
+          os_template: "OS Template"
+          memory: "Memory, Mb"
+          diskspace: "Diskspace, Mb"
+          expiration_date: "Expiration Date"
+          owner: "Owner"
+          description: "Description"
+        button:
+          create: "Create virtual server"
+          destroy: "Remove virtual server"
+          change_state: "Change state"
+          start: "Start"
+          restart: "Restart"
+          stop: "Stop"
+          edit: "Change settings"
+          limits: "Limits"
+          reinstall: "Reinstall"
+          clone: "Clone"
+          change_settings: "Change settings"
+          console: "Console"
+          backup: "Backup"
+      form:
+        change_settings:
+          title: "Change settings of virtual server"
+        reinstall:
+          title: "Reinstall virtual server"
+          button:
+            reinstall: "Reinstall"
+        change_state:
+          failed: "Unable to change virtual server state."
+        remove_server:
+          sure_to_remove: "Are you sure you want to remove selected virtual servers?"
+          deletion_failed: "Unable to delete some virtual servers."
+        create_server:
+          title: "Create new virtual server"
+          edit_title: "Change settings of virtual server"
+          button_create: "Create"
+          field:
+            identity: "Server ID (VEID)"
+            os_template: "OS Template"
+            select_os_template: "Select OS template"
+            ip_address: "IP Address"
+            host_name: "Host Name"
+            password: "Root Password"
+            confirm_password: "Confirm Password"
+            start_on_boot: "Start on Boot"
+            start_after_creation: "Start after Creation"
+            nameserver: "DNS Server"
+            search_domain: "Search Domain"
+            diskspace: "Disk Space, Mb"
+            memory: "RAM Memory, Mb"
+            status: "Status"
+            owner: "Owner"
+            select_owner: "Select an owner"
+            no_owner: "No owner"
+            server_template: "Server Template"
+            select_server_template: "Select server template"
+            description: "Description"
+            cpu_units: "CPU Units"
+            cpus: "Number of CPUs"
+            cpu_limit: "CPU Limit, %"
+            expiration_date: "Expiration date"
+          fieldset:
+            general: "General"
+            network: "Network"
+            system_access: "System Access"
+            start_options: "Start Options"
+            dns_settings: "DNS Settings"
+            limits: "Limits"
+          tab:
+            main_settings: "Main Settings"
+            additional_settings: "Additional Settings"
+        limits:
+          title: "Limits"
+          grid:
+            column:
+              name: "Name"
+              soft_limit: "Barrier"
+              hard_limit: "Limit"
+        console:
+          title: "Console"
+          error:
+            code: "Return code:"
+            output: "Output:"
+          field:
+            command: "Command"
+          button:
+            run: "Run"
+        clone:
+          title: "Clone virtual server"
+      show:
+        title: "Virtual server {{name}}"
+        grid:
+          title: "Virtual server information"
+          column:
+            parameter: "Parameter"
+            value: "Value"
+      stats:
+        title: "Virtual server statistics"
+        field:
+          cpu_load_average: "CPU load average"
+          disk_usage: "Disk usage"
+          memory_usage: "Memory usage"
+        value:
+          disk_usage: "{{percent}}%, {{used}} of {{total}} / {{free}} free"
+          memory_usage: "{{percent}}%, {{used}} of {{total}} / {{free}} free"
+        button:
+          stat_details: "Details"
+      stat_details:
+        title: "Virtual server {{name}} statistics"
+        grid:
+          title: "Virtual server limits"
+          column:
+            parameter: "Parameter"
+            current: "Current Use"
+            max: "Max Use"
+            barrier: "Barrier"
+            limit: "Limit"
+            failcnt: "Fails"
+        chart:
+          cpu_usage:
+            title: "CPU usage"
+          ram_usage:
+            title: "RAM usage"
+          disk_usage:
+            title: "Disk usage"
+    os_templates:
+      title: "OS Templates on Physical Server {{name}}"
+      grid:
+        title: "Installed OS Templates"
+        column:
+          name: "Name"
+          size: "Size, Mb"
+          virtual_servers: "Servers"
+        button:
+          install_new_template: "Install New OS Template"
+          remove: "Remove Template"
+      form:
+        install:
+          title: "Installation of new OS template"
+          tab:
+            official: "Official"
+            contributed: "Contributed"
+            url: "URL"
+          button_install: "Install"
+          load_failed: "Failed to load OS templates list."
+          failed: "Failed to start installation of OS templates."
+          scheduled: "OS templates installation was scheduled. New templates appeared after some time."
+          field:
+            url: "Template URL"
+          invalid_url: "Enter valid URL for OS template archive."
+        remove_template:
+          sure_to_remove: "Are you sure you want to remove selected OS templates?"
+          deletion_failed: "Unable to delete some OS templates."
+    event_log:
+      title: "Events Log"
+      grid:
+        title: "Latest events"
+        column:
+          level: "Status"
+          created_at: "Date"
+          message: "Message"
+          id: "ID"
+        button:
+          clear: "Clear Log"
+      form:
+        clear:
+          sure_to_clear: "Are you sure you want to remove all records?"
+          clear_failed: "Unable to clear log."
+    users:
+      role:
+        infrastructure_admin: "Infrastructure administrator"
+        virtual_server_owner: "Virtual server owner"
+      title: "Users"
+      top_toolbar:
+        roles: "Roles"
+      grid:
+        title: "Users list"
+        column:
+          enabled: "State"
+          login: "Login"
+          created_at: "Creation Date"
+          role: "Role"
+          contact_name: "Contact Name"
+          email: "E-mail"
+        button:
+          add: "Add User"
+          remove: "Delete User"
+          edit: "Edit User"
+          enable: "Enable"
+          disable: "Disable"
+      form:
+        remove_user:
+          sure_to_remove: "Are you sure you want to remove selected users?"
+          deletion_failed: "Unable to delete some users."
+        create:
+          title: "Create new user"
+          edit_title: "Edit user"
+          button_create: "Create"
+          field:
+            login: "Login"
+            password: "Password"
+            confirm_password: "Confirm Password"
+            role: "Role"
+            select_role: "Select a role"
+            contact_name: "Contact Name"
+            email: "E-mail"
+    task:
+      title: "Tasks"
+      grid:
+        title: "Tasks list"
+        column:
+          status: "Status"
+          id: "ID"
+          description: "Description"
+    server_templates:
+      title: "Server Templates on Physical Server {{name}}"
+      grid:
+        title: "Available Server Templates"
+        column:
+          name: "Name"
+          template_default: "default"
+          virtual_servers: "Servers"
+        button:
+          add: "Add Template"
+          remove: "Remove Template"
+          edit: "Change Template"
+      form:
+        remove_template:
+          sure_to_remove: "Are you sure you want to remove selected server templates?"
+          deletion_failed: "Unable to delete some server templates."
+        create_server:
+          title: "Create new server template"
+          edit_title: "Edit server template"
+          button_create: "Create"
+          tab:
+            main_settings: "Main settings"
+            advanced_settings: "Advanced settings"
+          fieldset:
+            general: "General"
+            limits: "Limits"
+            dns_settings: "DNS Settings"
+            start_options: "Start Options"
+          field:
+            name: "Name"
+            diskspace: "Diskspace, Mb"
+            memory: "Memory, Mb"
+            start_on_boot: "Start on Boot"
+            nameserver: "DNS Server"
+            search_domain: "Search Domain"
+            cpu_units: "CPU Units"
+            cpus: "Number of CPUs"
+            cpu_limit: "CPU Limit, %"
+          grid:
+            column:
+              name: "Name"
+              soft_limit: "Barrier"
+              hard_limit: "Limit"
+    backups:
+      title: "Backups for virtual server #{{identity}}"
+      grid:
+        title: "Backups"
+        button:
+          create: "Backup"
+          restore: "Restore"
+          destroy: "Delete"
+        column:
+          archive_date: "Date"
+          description: "Description"
+          size: "Size, Mb"
+      form:
+        remove_backup:
+          sure_to_remove: "Are you sure you want to remove selected backups?"
+          deletion_failed: "Unable to delete some backups."
+        create:
+          title: "Create new backup"
+          scheduled: "Backup procedure was started and will take some time."
+          field:
+            description: "Description"
+            ve_state:
+              title: "Server state"
+              suspend: "suspend (recommended)"
+              stop: "stop"
+              live: "keep running"
+          button_create: "Create"
+        restore:
+          sure_to_restore: "Are you sure you want to restore selected backup? Server will be unavailable during restore."
+          failed: "Restore procedure failed."
+          scheduled: "Restore procedure was started and will take some time."
+    requests:
+      title: "Requests"
+      grid:
+        title: "Requests list"
+        column:
+          opened: "State"
+          id: "ID"
+          subject: "Subject"
+          replies: "Replies"
+          author: "Author"
+          updated_at: "Update date"
+        button:
+          add: "Create request"
+          remove: "Delete request"
+          details: "Details"
+          solve: "Close request"
+          reopen: "Reopen request"
+      form:
+        remove_request:
+          sure_to_remove: "Are you sure you want to remove selected requests?"
+          deletion_failed: "Unable to delete some requests."
+        create:
+          title: "Create request"
+          button_create: "Create"
+          field:
+            subject: "Subject"
+            content: "Message"
+      comments:
+        title: "Request #{{id}}"
+        grid:
+          title: "Comments"
+          column:
+            created_at: "Date"
+            author: "Author"
+            content: "Message"
+          button:
+            add: "Add comment"
+        form:
+          add:
+            title: "Add comment"
+            button_add: "Add"
+            field:
+              content: "Message"
+    roles:
+      title: "Roles"
+      grid:
+        title: "Roles list"
+        column:
+          name: "Name"
+          users: "Users"
+        button:
+          add: "Add Role"
+          remove: "Remove Role"
+          edit: "Edit Role"
+      form:
+        remove_role:
+          sure_to_remove: "Are you sure you want to remove selected roles?"
+          deletion_failed: "Unable to delete some roles. Roles with assigned users cannot be deleted."
+        create:
+          title: "Create new role"
+          edit_title: "Edit role"
+          field:
+            name: "Name"
+          fieldset:
+            permissions: "Permissions"
+          button_create: "Create"
+          permissions:
+            manage_hardware_servers: "Physical servers management"
+            use_ve_console: "Virtual server console"
+            backup_ve: "Virtual server backups"
+            reinstall_ve: "Virtual server reinstall"
+            handle_requests: "Requests handling"
+            create_requests: "Requests creation"
+            view_tasks: "Tasks listing"
+            view_logs: "Event logs listing"
+            manage_logs: "Event logs management"
+            manage_users: "Users management"
+            select_os_on_reinstall: "OS selection on reinstall"

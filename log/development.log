@@ -1,0 +1,1063 @@
+# Logfile created on Sat Feb 19 18:29:28 +0000 2011  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (19.5ms)[0m   [0mselect sqlite_version(*)[0m
+  [4;36;1mSQL (359.4ms)[0m   [0;1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;35;1mSQL (101.9ms)[0m   [0mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateUsers (20091102155710)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.2ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (164.5ms)[0m   [0;1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "login" varchar(40), "crypted_password" varchar(40), "salt" varchar(40), "created_at" datetime, "updated_at" datetime, "remember_token" varchar(40), "remember_token_expires_at" datetime) [0m
+  [4;35;1mSQL (137.3ms)[0m   [0mCREATE UNIQUE INDEX "index_users_on_login" ON "users" ("login")[0m
+  [4;36;1mSQL (120.0ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20091102155710')[0m
+Migrating to DefaultAdmin (20091102162214)
+  [4;35;1mUser Create (1.6ms)[0m   [0mINSERT INTO "users" ("salt", "created_at", "crypted_password", "remember_token_expires_at", "updated_at", "remember_token", "login") VALUES('f3b49568d393d075781eab70645ad533f56fc6f2', '2011-02-19 18:31:19', '0daf7248aa1625a469f93cd486556364f89ddd45', NULL, '2011-02-19 18:31:19', NULL, 'admin')[0m
+  [4;36;1mSQL (131.4ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20091102162214')[0m
+Migrating to CreateHardwareServers (20091125153737)
+  [4;35;1mSQL (118.0ms)[0m   [0mCREATE TABLE "hardware_servers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "host" varchar(255), "auth_key" varchar(255), "description" varchar(255)) [0m
+  [4;36;1mSQL (137.9ms)[0m   [0;1mCREATE UNIQUE INDEX "index_hardware_servers_on_host" ON "hardware_servers" ("host")[0m
+  [4;35;1mSQL (126.0ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20091125153737')[0m
+Migrating to CreateOsTemplates (20091129111601)
+  [4;36;1mSQL (120.2ms)[0m   [0;1mCREATE TABLE "os_templates" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "hardware_server_id" integer) [0m
+  [4;35;1mSQL (129.2ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20091129111601')[0m
+Migrating to CreateVirtualServers (20091129132932)
+  [4;36;1mSQL (119.5ms)[0m   [0;1mCREATE TABLE "virtual_servers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "identity" integer, "ip_address" varchar(255), "host_name" varchar(255), "state" varchar(20), "hardware_server_id" integer, "os_template_id" integer) [0m
+  [4;35;1mSQL (118.4ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20091129132932')[0m
+Migrating to CreateEventLogs (20091228044334)
+  [4;36;1mSQL (158.7ms)[0m   [0;1mCREATE TABLE "event_logs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "level" integer, "message" varchar(255), "params" varchar(255), "created_at" datetime) [0m
+  [4;35;1mSQL (159.3ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20091228044334')[0m
+Migrating to AddStartOnBootToVirtualServer (20100113170452)
+  [4;36;1mSQL (109.0ms)[0m   [0;1mALTER TABLE "virtual_servers" ADD "start_on_boot" boolean DEFAULT 't'[0m
+  [4;35;1mSQL (161.2ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (148.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100113170452')[0m
+Migrating to AddNameserverToVirtualServer (20100113174014)
+  [4;35;1mSQL (117.6ms)[0m   [0mALTER TABLE "virtual_servers" ADD "nameserver" varchar(255)[0m
+  [4;36;1mSQL (107.9ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (112.5ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100113174014')[0m
+Migrating to AddSearchDomainToVirtualServer (20100113174105)
+  [4;36;1mSQL (108.0ms)[0m   [0;1mALTER TABLE "virtual_servers" ADD "search_domain" varchar(255)[0m
+  [4;35;1mSQL (87.3ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (119.4ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100113174105')[0m
+Migrating to AddDiskspaceToVirtualServer (20100114154437)
+  [4;35;1mSQL (128.3ms)[0m   [0mALTER TABLE "virtual_servers" ADD "diskspace" integer DEFAULT 1024[0m
+  [4;36;1mSQL (103.4ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (120.6ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100114154437')[0m
+Migrating to AddMemoryToVirtualServer (20100114160251)
+  [4;36;1mSQL (139.5ms)[0m   [0;1mALTER TABLE "virtual_servers" ADD "memory" integer DEFAULT 256[0m
+  [4;35;1mSQL (90.7ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (119.0ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100114160251')[0m
+Migrating to AddOrigOsTemplateToVirtualServer (20100127142920)
+  [4;35;1mSQL (117.1ms)[0m   [0mALTER TABLE "virtual_servers" ADD "orig_os_template" varchar(255)[0m
+  [4;36;1mSQL (90.9ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (129.8ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100127142920')[0m
+Migrating to RemoveOsTemplateIdFromVirtualServer (20100127143637)
+  [4;36;1mSQL (0.6ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_virtual_servers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "identity" integer, "ip_address" varchar(255), "host_name" varchar(255), "state" varchar(20), "hardware_server_id" integer, "os_template_id" integer, "start_on_boot" boolean DEFAULT 't', "nameserver" varchar(255), "search_domain" varchar(255), "diskspace" integer DEFAULT 1024, "memory" integer DEFAULT 256, "orig_os_template" varchar(255)) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("virtual_servers")[0m
+  [4;36;1mSQL (1.5ms)[0m   [0;1mDROP TABLE "virtual_servers"[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE TABLE "virtual_servers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "identity" integer, "ip_address" varchar(255), "host_name" varchar(255), "state" varchar(20), "hardware_server_id" integer, "start_on_boot" boolean DEFAULT 't', "nameserver" varchar(255), "search_domain" varchar(255), "diskspace" integer DEFAULT 1024, "memory" integer DEFAULT 256, "orig_os_template" varchar(255)) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("altered_virtual_servers")[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mDROP TABLE "altered_virtual_servers"[0m
+  [4;36;1mSQL (119.5ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100127143637')[0m
+Migrating to AddRoleTypeToUser (20100223123805)
+  [4;35;1mSQL (115.4ms)[0m   [0mALTER TABLE "users" ADD "role_type" integer DEFAULT 1[0m
+  [4;36;1mSQL (92.5ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (118.9ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100223123805')[0m
+Migrating to AddUserIdToVirtualServer (20100223142301)
+  [4;36;1mSQL (128.4ms)[0m   [0;1mALTER TABLE "virtual_servers" ADD "user_id" integer DEFAULT 0[0m
+  [4;35;1mSQL (208.9ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (122.6ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100223142301')[0m
+Migrating to AddDefaultOsTemplateToHardwareServer (20100226154537)
+  [4;35;1mSQL (115.2ms)[0m   [0mALTER TABLE "hardware_servers" ADD "default_os_template" varchar(255)[0m
+  [4;36;1mSQL (89.1ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (118.9ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100226154537')[0m
+Migrating to AddTemplatesDirToHardwareServer (20100228060843)
+  [4;36;1mSQL (108.1ms)[0m   [0;1mALTER TABLE "hardware_servers" ADD "templates_dir" varchar(255)[0m
+  [4;35;1mSQL (100.6ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (120.0ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100228060843')[0m
+Migrating to CreateBackgroundJobs (20100302144106)
+  [4;35;1mSQL (128.4ms)[0m   [0mCREATE TABLE "background_jobs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "description" varchar(255), "params" varchar(255), "status" integer) [0m
+  [4;36;1mSQL (121.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100302144106')[0m
+Migrating to CreateServerTemplates (20100308091124)
+  [4;35;1mSQL (116.7ms)[0m   [0mCREATE TABLE "server_templates" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "hardware_server_id" integer) [0m
+  [4;36;1mSQL (110.4ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100308091124')[0m
+Migrating to AddDefaultServerTemplateToHardwareServer (20100308140523)
+  [4;35;1mSQL (120.3ms)[0m   [0mALTER TABLE "hardware_servers" ADD "default_server_template" varchar(255)[0m
+  [4;36;1mSQL (92.7ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (109.3ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100308140523')[0m
+Migrating to AddOrigServerTemplateToVirtualServer (20100309143652)
+  [4;36;1mSQL (139.2ms)[0m   [0;1mALTER TABLE "virtual_servers" ADD "orig_server_template" varchar(255)[0m
+  [4;35;1mSQL (111.3ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (133.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100309143652')[0m
+Migrating to AddDescriptionToVirtualServer (20100417091554)
+  [4;35;1mSQL (117.0ms)[0m   [0mALTER TABLE "virtual_servers" ADD "description" varchar(255)[0m
+  [4;36;1mSQL (97.2ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (114.3ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100417091554')[0m
+Migrating to AddVzctlVersionToHardwareServer (20100611133426)
+  [4;36;1mSQL (125.0ms)[0m   [0;1mALTER TABLE "hardware_servers" ADD "vzctl_version" varchar(255)[0m
+  [4;35;1mSQL (101.4ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (130.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100611133426')[0m
+Migrating to AddDaemonPortToHardwareServer (20100612160739)
+  [4;35;1mSQL (130.4ms)[0m   [0mALTER TABLE "hardware_servers" ADD "daemon_port" integer DEFAULT 7767[0m
+  [4;36;1mSQL (101.8ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (128.7ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100612160739')[0m
+Migrating to AddCpuLimitsToVirtualServer (20100703055302)
+  [4;36;1mSQL (129.5ms)[0m   [0;1mALTER TABLE "virtual_servers" ADD "cpu_units" integer[0m
+  [4;35;1mSQL (103.9ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (127.6ms)[0m   [0;1mALTER TABLE "virtual_servers" ADD "cpu_limit" integer[0m
+  [4;35;1mSQL (115.0ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (116.6ms)[0m   [0;1mALTER TABLE "virtual_servers" ADD "cpus" integer[0m
+  [4;35;1mSQL (92.5ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (120.4ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100703055302')[0m
+Migrating to CreateBackups (20100711090643)
+  [4;35;1mSQL (158.6ms)[0m   [0mCREATE TABLE "backups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "description" varchar(255), "size" integer, "virtual_server_id" integer) [0m
+  [4;36;1mSQL (141.9ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100711090643')[0m
+Migrating to AddBackupsDirToHardwareServer (20100711091819)
+  [4;35;1mSQL (118.1ms)[0m   [0mALTER TABLE "hardware_servers" ADD "backups_dir" varchar(255)[0m
+  [4;36;1mSQL (109.7ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (114.4ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100711091819')[0m
+Migrating to AddVePrivateToHardwareServer (20100713154625)
+  [4;36;1mSQL (124.8ms)[0m   [0;1mALTER TABLE "hardware_servers" ADD "ve_private" varchar(255)[0m
+  [4;35;1mSQL (100.1ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (141.4ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100713154625')[0m
+Migrating to CreateRequests (20100809142823)
+  [4;35;1mSQL (627.2ms)[0m   [0mCREATE TABLE "requests" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "subject" varchar(255), "content" text, "opened" boolean DEFAULT 't', "created_at" datetime, "updated_at" datetime, "user_id" integer) [0m
+  [4;36;1mSQL (131.0ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100809142823')[0m
+Migrating to CreateComments (20100810004228)
+  [4;35;1mSQL (127.8ms)[0m   [0mCREATE TABLE "comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "content" text, "created_at" datetime, "request_id" integer, "user_id" integer) [0m
+  [4;36;1mSQL (121.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100810004228')[0m
+Migrating to AddExpirationDateToVirtualServer (20100812153257)
+  [4;35;1mSQL (118.1ms)[0m   [0mALTER TABLE "virtual_servers" ADD "expiration_date" date[0m
+  [4;36;1mSQL (92.9ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (115.5ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100812153257')[0m
+Migrating to AddEmailToUser (20100823142120)
+  [4;36;1mSQL (129.3ms)[0m   [0;1mALTER TABLE "users" ADD "email" varchar(255)[0m
+  [4;35;1mSQL (116.2ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (136.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100823142120')[0m
+Migrating to AddContactNameToUser (20100913152020)
+  [4;35;1mSQL (87.3ms)[0m   [0mALTER TABLE "users" ADD "contact_name" varchar(255)[0m
+  [4;36;1mSQL (95.0ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mSQL (131.7ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100913152020')[0m
+Migrating to AddEnabledToUser (20100929132210)
+  [4;36;1mSQL (133.7ms)[0m   [0;1mALTER TABLE "users" ADD "enabled" boolean DEFAULT 't'[0m
+  [4;35;1mSQL (137.5ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (99.7ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20100929132210')[0m
+Migrating to CreateRoles (20101018142145)
+  [4;35;1mSQL (98.0ms)[0m   [0mCREATE TABLE "roles" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "built_in" boolean) [0m
+WARNING: Can't mass-assign these protected attributes: built_in
+  [4;36;1mRole Exists (0.2ms)[0m   [0;1mSELECT "roles".id FROM "roles" WHERE ("roles"."name" = 'superadmin') LIMIT 1[0m
+  [4;35;1mRole Create (0.8ms)[0m   [0mINSERT INTO "roles" ("name", "built_in") VALUES('superadmin', NULL)[0m
+WARNING: Can't mass-assign these protected attributes: built_in
+  [4;36;1mRole Exists (0.3ms)[0m   [0;1mSELECT "roles".id FROM "roles" WHERE ("roles"."name" = 've_admin') LIMIT 1[0m
+  [4;35;1mRole Create (1.2ms)[0m   [0mINSERT INTO "roles" ("name", "built_in") VALUES('ve_admin', NULL)[0m
+  [4;36;1mSQL (99.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101018142145')[0m
+Migrating to CreatePermissions (20101018151313)
+  [4;35;1mSQL (94.0ms)[0m   [0mCREATE TABLE "permissions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) [0m
+  [4;36;1mPermission Create (1.4ms)[0m   [0;1mINSERT INTO "permissions" ("name") VALUES('manage_hardware_servers')[0m
+  [4;35;1mPermission Create (1.4ms)[0m   [0mINSERT INTO "permissions" ("name") VALUES('use_ve_console')[0m
+  [4;36;1mPermission Create (1.4ms)[0m   [0;1mINSERT INTO "permissions" ("name") VALUES('backup_ve')[0m
+  [4;35;1mPermission Create (1.4ms)[0m   [0mINSERT INTO "permissions" ("name") VALUES('reinstall_ve')[0m
+  [4;36;1mPermission Create (1.3ms)[0m   [0;1mINSERT INTO "permissions" ("name") VALUES('handle_requests')[0m
+  [4;35;1mPermission Create (1.3ms)[0m   [0mINSERT INTO "permissions" ("name") VALUES('create_requests')[0m
+  [4;36;1mPermission Create (1.5ms)[0m   [0;1mINSERT INTO "permissions" ("name") VALUES('view_tasks')[0m
+  [4;35;1mPermission Create (1.4ms)[0m   [0mINSERT INTO "permissions" ("name") VALUES('view_logs')[0m
+  [4;36;1mPermission Create (1.4ms)[0m   [0;1mINSERT INTO "permissions" ("name") VALUES('manage_logs')[0m
+  [4;35;1mPermission Create (1.6ms)[0m   [0mINSERT INTO "permissions" ("name") VALUES('manage_users')[0m
+  [4;36;1mSQL (88.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101018151313')[0m
+Migrating to CreatePermissionsRoles (20101018151357)
+  [4;35;1mSQL (95.6ms)[0m   [0mCREATE TABLE "permissions_roles" ("permission_id" integer, "role_id" integer) [0m
+  [4;36;1mRole Load (0.6ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."name" = 'superadmin') LIMIT 1[0m
+  [4;35;1mPermission Load (0.6ms)[0m   [0mSELECT * FROM "permissions" [0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT * FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions_roles".role_id = 1 ) [0m
+  [4;35;1mSQL (0.9ms)[0m   [0mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (1, 1)[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (2, 1)[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (3, 1)[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (4, 1)[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (5, 1)[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (6, 1)[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (7, 1)[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (8, 1)[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (9, 1)[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (10, 1)[0m
+  [4;35;1mRole Load (0.5ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."name" = 've_admin') LIMIT 1[0m
+  [4;36;1mPermission Load (0.4ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions"."name" = 'use_ve_console') LIMIT 1[0m
+  [4;35;1mSQL (0.9ms)[0m   [0mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (2, 2)[0m
+  [4;36;1mPermission Load (0.4ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions"."name" = 'backup_ve') LIMIT 1[0m
+  [4;35;1mSQL (0.9ms)[0m   [0mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (3, 2)[0m
+  [4;36;1mPermission Load (0.4ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions"."name" = 'reinstall_ve') LIMIT 1[0m
+  [4;35;1mSQL (0.9ms)[0m   [0mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (4, 2)[0m
+  [4;36;1mPermission Load (0.5ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions"."name" = 'create_requests') LIMIT 1[0m
+  [4;35;1mSQL (0.9ms)[0m   [0mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (6, 2)[0m
+  [4;36;1mSQL (90.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101018151357')[0m
+Migrating to AddRoleToUser (20101018160616)
+  [4;35;1mSQL (88.3ms)[0m   [0mALTER TABLE "users" ADD "role_id" integer[0m
+  [4;36;1mSQL (104.9ms)[0m   [0;1mVACUUM[0m
+  [4;35;1mRole Load (1.5ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."name" = 'superadmin') LIMIT 1[0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."name" = 've_admin') LIMIT 1[0m
+  [4;35;1mUser Load (0.4ms)[0m   [0mSELECT * FROM "users" [0m
+  [4;36;1mUser Update (1.0ms)[0m   [0;1mUPDATE "users" SET "role_id" = 1, "updated_at" = '2011-02-19 18:31:33' WHERE "id" = 1[0m
+  [4;35;1mSQL (0.6ms)[0m   [0mCREATE TEMPORARY TABLE "altered_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "login" varchar(40), "crypted_password" varchar(40), "salt" varchar(40), "created_at" datetime, "updated_at" datetime, "remember_token" varchar(40), "remember_token_expires_at" datetime, "role_type" integer DEFAULT 1, "email" varchar(255), "contact_name" varchar(255), "enabled" boolean DEFAULT 't', "role_id" integer) [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mPRAGMA index_list("users")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('index_users_on_login')[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE UNIQUE INDEX "temp_index_altered_users_on_login" ON "altered_users" ("login")[0m
+  [4;35;1mSQL (3.7ms)[0m   [0mDROP TABLE "users"[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "login" varchar(40), "crypted_password" varchar(40), "salt" varchar(40), "created_at" datetime, "updated_at" datetime, "remember_token" varchar(40), "remember_token_expires_at" datetime, "email" varchar(255), "contact_name" varchar(255), "enabled" boolean DEFAULT 't', "role_id" integer) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("altered_users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('temp_index_altered_users_on_login')[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mCREATE UNIQUE INDEX "index_users_on_login" ON "users" ("login")[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mDROP TABLE "altered_users"[0m
+  [4;35;1mSQL (226.4ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20101018160616')[0m
+Migrating to AddOsSelectionOnReinstallPermission (20101021154600)
+  [4;36;1mPermission Create (1.3ms)[0m   [0;1mINSERT INTO "permissions" ("name") VALUES('select_os_on_reinstall')[0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."name" = 'superadmin') LIMIT 1[0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions"."name" = 'select_os_on_reinstall') LIMIT 1[0m
+  [4;35;1mSQL (0.9ms)[0m   [0mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (11, 1)[0m
+  [4;36;1mRole Load (0.4ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."name" = 've_admin') LIMIT 1[0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT * FROM "permissions" WHERE ("permissions"."name" = 'select_os_on_reinstall') LIMIT 1[0m
+  [4;36;1mSQL (1.0ms)[0m   [0;1mINSERT INTO "permissions_roles" ("permission_id", "role_id") VALUES (11, 2)[0m
+  [4;35;1mSQL (88.6ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20101021154600')[0m
+Migrating to CreateBeanCounters (20101024070705)
+  [4;36;1mSQL (133.9ms)[0m   [0;1mCREATE TABLE "bean_counters" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "virtual_server_id" integer, "held" varchar(255), "maxheld" varchar(255), "barrier" varchar(255), "limit" varchar(255), "failcnt" varchar(255), "period_type" integer, "created_at" datetime) [0m
+  [4;35;1mSQL (119.5ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20101024070705')[0m
+Migrating to AddAlertToBeanCounter (20101026161959)
+  [4;36;1mSQL (112.7ms)[0m   [0;1mALTER TABLE "bean_counters" ADD "alert" boolean DEFAULT 'f'[0m
+  [4;35;1mSQL (116.6ms)[0m   [0mVACUUM[0m
+  [4;36;1mSQL (92.7ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101026161959')[0m
+Migrating to DeleteWrongBeanCounters (20101108153520)
+  [4;35;1mBeanCounter Delete all (0.3ms)[0m   [0mDELETE FROM "bean_counters" WHERE (typeof(created_at) = 'null') [0m
+  [4;36;1mSQL (106.8ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101108153520')[0m
+  [4;35;1mSQL (0.8ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.9ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("background_jobs")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("backups")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("bean_counters")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("comments")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("event_logs")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("hardware_servers")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_hardware_servers_on_host')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("os_templates")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("permissions")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("permissions_roles")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("requests")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("roles")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("server_templates")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_users_on_login')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("virtual_servers")[0m
+  [4;36;1mSQL (1.2ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.7ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateUsers (20091102155710)
+Migrating to DefaultAdmin (20091102162214)
+Migrating to CreateHardwareServers (20091125153737)
+Migrating to CreateOsTemplates (20091129111601)
+Migrating to CreateVirtualServers (20091129132932)
+Migrating to CreateEventLogs (20091228044334)
+Migrating to AddStartOnBootToVirtualServer (20100113170452)
+Migrating to AddNameserverToVirtualServer (20100113174014)
+Migrating to AddSearchDomainToVirtualServer (20100113174105)
+Migrating to AddDiskspaceToVirtualServer (20100114154437)
+Migrating to AddMemoryToVirtualServer (20100114160251)
+Migrating to AddOrigOsTemplateToVirtualServer (20100127142920)
+Migrating to RemoveOsTemplateIdFromVirtualServer (20100127143637)
+Migrating to AddRoleTypeToUser (20100223123805)
+Migrating to AddUserIdToVirtualServer (20100223142301)
+Migrating to AddDefaultOsTemplateToHardwareServer (20100226154537)
+Migrating to AddTemplatesDirToHardwareServer (20100228060843)
+Migrating to CreateBackgroundJobs (20100302144106)
+Migrating to CreateServerTemplates (20100308091124)
+Migrating to AddDefaultServerTemplateToHardwareServer (20100308140523)
+Migrating to AddOrigServerTemplateToVirtualServer (20100309143652)
+Migrating to AddDescriptionToVirtualServer (20100417091554)
+Migrating to AddVzctlVersionToHardwareServer (20100611133426)
+Migrating to AddDaemonPortToHardwareServer (20100612160739)
+Migrating to AddCpuLimitsToVirtualServer (20100703055302)
+Migrating to CreateBackups (20100711090643)
+Migrating to AddBackupsDirToHardwareServer (20100711091819)
+Migrating to AddVePrivateToHardwareServer (20100713154625)
+Migrating to CreateRequests (20100809142823)
+Migrating to CreateComments (20100810004228)
+Migrating to AddExpirationDateToVirtualServer (20100812153257)
+Migrating to AddEmailToUser (20100823142120)
+Migrating to AddContactNameToUser (20100913152020)
+Migrating to AddEnabledToUser (20100929132210)
+Migrating to CreateRoles (20101018142145)
+Migrating to CreatePermissions (20101018151313)
+Migrating to CreatePermissionsRoles (20101018151357)
+Migrating to AddRoleToUser (20101018160616)
+Migrating to AddOsSelectionOnReinstallPermission (20101021154600)
+Migrating to CreateBeanCounters (20101024070705)
+Migrating to AddAlertToBeanCounter (20101026161959)
+Migrating to DeleteWrongBeanCounters (20101108153520)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("background_jobs")[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("backups")[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("bean_counters")[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("comments")[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("event_logs")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("hardware_servers")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_hardware_servers_on_host')[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("os_templates")[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("permissions")[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("permissions_roles")[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("requests")[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("roles")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("server_templates")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_users_on_login')[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("virtual_servers")[0m
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2011-02-19 18:32:57) [GET]
+Rendering template within layouts/application
+Rendering sessions/new
+Rendered layouts/_header (4.2ms)
+Rendered layouts/_top_header (0.4ms)
+Rendered layouts/_about_box (0.6ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 244ms (View: 45, DB: 0) | 200 OK [http://localhost/]
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2011-02-19 18:33:59) [POST]
+  Parameters: {"remember_me"=>"on", "locale"=>"fr", "login"=>"admin", "password"=>"admin"}
+Cookie set: locale=fr; path=/; expires=Sun, 19 Feb 2012 18:33:59 GMT
+Cookie set: auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."login" = 'admin') LIMIT 1[0m
+  [4;35;1mEventLog Create (1.1ms)[0m   [0mINSERT INTO "event_logs" ("created_at", "level", "params", "message") VALUES('2011-02-19 18:33:59', 1, '{:
+login"
+admin', 'user.login.ok')[0m
+User admin is logged in.
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSELECT count(*) AS count_all FROM "event_logs" [0m
+  [4;35;1mUser Update (1.0ms)[0m   [0mUPDATE "users" SET "updated_at" = '2011-02-19 18:34:00', "remember_token" = '05ad9348c0d003d8861d2d314d61fb44c9b62eaa', "remember_token_expires_at" = '2011-03-05 18:34:00' WHERE "id" = 1[0m
+Cookie set: auth_token=05ad9348c0d003d8861d2d314d61fb44c9b62eaa; path=/; expires=Sat, 05 Mar 2011 18:34:00 GMT
+Completed in 460ms (View: 0, DB: 3) | 200 OK [http://localhost/login]
+
+
+Processing Admin::DashboardController#index (for 127.0.0.1 at 2011-02-19 18:34:00) [GET]
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.2ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "hardware_servers" [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "virtual_servers" [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (state = 'running') [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (state = 'stopped') [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (expiration_date < '2011-02-19') [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSELECT count(*) AS count_all FROM "requests" WHERE (opened = 't') [0m
+Cache miss: updates_date ({})
+Cache write (will save 0.01ms): updates_date
+Cache miss: updates ({:force=>false})
+Failed to obtain updates. Error: execution expired.
+Cache write: updates
+Cache write: updates_date
+Rendering template within layouts/admin
+Rendering admin/dashboard/index
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_header (1.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.4ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.4ms)
+Rendered layouts/_about_box (0.6ms)
+Rendered layouts/_footer (0.1ms)
+Completed in 3164ms (View: 51, DB: 2) | 200 OK [http://localhost/admin/dashboard]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 18:34:04) [GET]
+  Parameters: {"_dc"=>"1298140444029"}
+  [4;35;1mUser Load (1.4ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.3ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mBackgroundJob Load (0.2ms)[0m   [0;1mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 203ms (View: 0, DB: 3) | 200 OK [http://localhost/admin/tasks/status?_dc=1298140444029]
+
+
+Processing Admin::UsersController#list (for 127.0.0.1 at 2011-02-19 18:35:38) [GET]
+  [4;35;1mUser Load (0.4ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.3ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+Rendering template within layouts/admin
+Rendering admin/users/list
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" [0m
+Rendered layouts/_header (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.3ms)
+Rendered layouts/_about_box (0.6ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 151ms (View: 54, DB: 2) | 200 OK [http://localhost/admin/users/list]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 18:35:39) [GET]
+  Parameters: {"_dc"=>"1298140539015"}
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.4ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.4ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mBackgroundJob Load (0.2ms)[0m   [0mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 244ms (View: 0, DB: 2) | 200 OK [http://localhost/admin/tasks/status?_dc=1298140539015]
+
+
+Processing Admin::UsersController#update (for 127.0.0.1 at 2011-02-19 18:36:06) [POST]
+  Parameters: {"contact_name"=>"Hassane Moustapha", "password_confirmation"=>"passer", "role_id"=>"1", "id"=>"", "login"=>"hkairi", "password"=>"passer", "email"=>"hassanemoustapha@gmail.com"}
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.2ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+WARNING: Can't mass-assign these protected attributes: action, id, controller
+  [4;35;1mUser Exists (0.2ms)[0m   [0mSELECT "users".id FROM "users" WHERE ("users"."login" = 'hkairi') LIMIT 1[0m
+  [4;36;1mUser Create (1.1ms)[0m   [0;1mINSERT INTO "users" ("salt", "created_at", "contact_name", "crypted_password", "remember_token_expires_at", "updated_at", "role_id", "enabled", "remember_token", "login", "email") VALUES('ff70ddd55b173ab1129cc467da7ce07a92441341', '2011-02-19 18:36:06', 'Hassane Moustapha', '18d8235d076b78b02291c1f9471b6c5a4a83607b', NULL, '2011-02-19 18:36:06', 1, 't', NULL, 'hkairi', 'hassanemoustapha@gmail.com')[0m
+  [4;35;1mEventLog Create (1.4ms)[0m   [0mINSERT INTO "event_logs" ("created_at", "level", "params", "message") VALUES('2011-02-19 18:36:07', 1, '{:
+login"hkairi', 'user.created')[0m
+User hkairi was created.
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSELECT count(*) AS count_all FROM "event_logs" [0m
+Completed in 394ms (View: 0, DB: 4) | 200 OK [http://localhost/admin/users/update]
+
+
+Processing Admin::UsersController#list_data (for 127.0.0.1 at 2011-02-19 18:36:07) [GET]
+  Parameters: {"_dc"=>"1298140567272"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+Completed in 95ms (View: 1, DB: 1) | 200 OK [http://localhost/admin/users/list_data?_dc=1298140567272]
+
+
+Processing Admin::DashboardController#index (for 127.0.0.1 at 2011-02-19 18:36:13) [GET]
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.3ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mSQL (0.3ms)[0m   [0mSELECT count(*) AS count_all FROM "users" [0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSELECT count(*) AS count_all FROM "hardware_servers" [0m
+  [4;35;1mSQL (0.3ms)[0m   [0mSELECT count(*) AS count_all FROM "virtual_servers" [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (state = 'running') [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (state = 'stopped') [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (expiration_date < '2011-02-19') [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "requests" WHERE (opened = 't') [0m
+Cache hit: updates_date ({})
+Cache hit: updates ({:force=>false})
+Rendering template within layouts/admin
+Rendering admin/dashboard/index
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_header (1.4ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.4ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.4ms)
+Rendered layouts/_about_box (0.6ms)
+Rendered layouts/_footer (0.1ms)
+Completed in 226ms (View: 39, DB: 3) | 200 OK [http://localhost/admin/dashboard]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 18:36:14) [GET]
+  Parameters: {"_dc"=>"1298140574470"}
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.3ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mPermission Load (0.4ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mBackgroundJob Load (0.2ms)[0m   [0mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 176ms (View: 0, DB: 2) | 200 OK [http://localhost/admin/tasks/status?_dc=1298140574470]
+
+
+Processing Admin::HardwareServersController#list (for 127.0.0.1 at 2011-02-19 18:36:23) [GET]
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.2ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+Rendering template within layouts/admin
+Rendering admin/hardware_servers/list
+Rendered layouts/_header (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.3ms)
+Rendered layouts/_about_box (0.6ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 145ms (View: 49, DB: 1) | 200 OK [http://localhost/admin/hardware-servers/list]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 18:36:24) [GET]
+  Parameters: {"_dc"=>"1298140584062"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.3ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mBackgroundJob Load (0.2ms)[0m   [0;1mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 102ms (View: 0, DB: 1) | 200 OK [http://localhost/admin/tasks/status?_dc=1298140584062]
+
+
+Processing Admin::DashboardController#index (for 127.0.0.1 at 2011-02-19 18:36:47) [GET]
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "users" [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT count(*) AS count_all FROM "hardware_servers" [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "virtual_servers" [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (state = 'running') [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (state = 'stopped') [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (expiration_date < '2011-02-19') [0m
+  [4;35;1mSQL (0.3ms)[0m   [0mSELECT count(*) AS count_all FROM "requests" WHERE (opened = 't') [0m
+Cache hit: updates_date ({})
+Cache hit: updates ({:force=>false})
+Rendering template within layouts/admin
+Rendering admin/dashboard/index
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_header (1.4ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.4ms)
+Rendered layouts/_about_box (0.7ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 232ms (View: 40, DB: 2) | 200 OK [http://localhost/admin/dashboard]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 18:36:47) [GET]
+  Parameters: {"_dc"=>"1298140607779"}
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.2ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mBackgroundJob Load (0.2ms)[0m   [0mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 94ms (View: 0, DB: 1) | 200 OK [http://localhost/admin/tasks/status?_dc=1298140607779]
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2011-02-19 18:36:54) [GET]
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+Redirected to controlleradmin/dashboard
+Completed in 150ms (DB: 0) | 302 Found [http://localhost/]
+
+
+Processing Admin::DashboardController#index (for 127.0.0.1 at 2011-02-19 18:36:54) [GET]
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "users" [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "hardware_servers" [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "virtual_servers" [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (state = 'running') [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (state = 'stopped') [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (expiration_date < '2011-02-19') [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "requests" WHERE (opened = 't') [0m
+Cache hit: updates_date ({})
+Cache hit: updates ({:force=>false})
+Rendering template within layouts/admin
+Rendering admin/dashboard/index
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_header (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.3ms)
+Rendered layouts/_about_box (0.7ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 144ms (View: 37, DB: 2) | 200 OK [http://localhost/admin/dashboard]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 18:36:55) [GET]
+  Parameters: {"_dc"=>"1298140615230"}
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.2ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mBackgroundJob Load (0.2ms)[0m   [0mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 97ms (View: 0, DB: 1) | 200 OK [http://localhost/admin/tasks/status?_dc=1298140615230]
+
+
+Processing Admin::HardwareServersController#list (for 127.0.0.1 at 2011-02-19 19:17:45) [GET]
+  [4;36;1mUser Load (0.4ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.2ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+Rendering template within layouts/admin
+Rendering admin/hardware_servers/list
+Rendered layouts/_header (35.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.4ms)
+Rendered layouts/_about_box (0.7ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 291ms (View: 91, DB: 1) | 200 OK [http://localhost/admin/hardware-servers/list]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 19:17:46) [GET]
+  Parameters: {"_dc"=>"1298143066441"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mBackgroundJob Load (0.2ms)[0m   [0;1mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 96ms (View: 0, DB: 1) | 200 OK [http://localhost/admin/tasks/status?_dc=1298143066441]
+
+
+Processing Admin::UsersController#list (for 127.0.0.1 at 2011-02-19 19:17:53) [GET]
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.3ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+Rendering template within layouts/admin
+Rendering admin/users/list
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" [0m
+Rendered layouts/_header (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.3ms)
+Rendered layouts/_about_box (0.6ms)
+Rendered layouts/_footer (0.1ms)
+Completed in 160ms (View: 66, DB: 2) | 200 OK [http://localhost/admin/users/list]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 19:17:53) [GET]
+  Parameters: {"_dc"=>"1298143073509"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mBackgroundJob Load (0.2ms)[0m   [0;1mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 169ms (View: 0, DB: 1) | 200 OK [http://localhost/admin/tasks/status?_dc=1298143073509]
+
+
+Processing Admin::UsersController#list_data (for 127.0.0.1 at 2011-02-19 19:18:09) [GET]
+  Parameters: {"_dc"=>"1298143089419"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+Completed in 92ms (View: 1, DB: 2) | 200 OK [http://localhost/admin/users/list_data?_dc=1298143089419]
+
+
+Processing Admin::UsersController#change_state (for 127.0.0.1 at 2011-02-19 19:18:12) [POST]
+  Parameters: {"ids"=>"2", "command"=>"enable"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) [0m
+  [4;35;1mUser Exists (0.2ms)[0m   [0mSELECT "users".id FROM "users" WHERE ("users"."login" = 'hkairi' AND "users".id <> 2) LIMIT 1[0m
+  [4;36;1mEventLog Create (14.7ms)[0m   [0;1mINSERT INTO "event_logs" ("created_at", "level", "params", "message") VALUES('2011-02-19 19:18:12', 1, '{:
+login"hkairi', 'user.enabled')[0m
+User hkairi was enabled.
+  [4;35;1mSQL (0.4ms)[0m   [0mSELECT count(*) AS count_all FROM "event_logs" [0m
+Completed in 249ms (View: 0, DB: 17) | 200 OK [http://localhost/admin/users/change_state]
+
+
+Processing Admin::UsersController#list_data (for 127.0.0.1 at 2011-02-19 19:18:12) [GET]
+  Parameters: {"_dc"=>"1298143092920"}
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.2ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+Completed in 90ms (View: 1, DB: 2) | 200 OK [http://localhost/admin/users/list_data?_dc=1298143092920]
+
+
+Processing Admin::RequestsController#list (for 127.0.0.1 at 2011-02-19 19:18:17) [GET]
+  [4;36;1mUser Load (0.4ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.2ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'handle_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mRequest Load (0.2ms)[0m   [0;1mSELECT * FROM "requests" [0m
+Rendering template within layouts/admin
+Rendering admin/requests/list
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'handle_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'handle_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'handle_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_header (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.4ms)
+Rendered layouts/_about_box (0.6ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 151ms (View: 54, DB: 2) | 200 OK [http://localhost/admin/requests/list]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 19:18:17) [GET]
+  Parameters: {"_dc"=>"1298143097694"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mBackgroundJob Load (0.2ms)[0m   [0;1mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 96ms (View: 0, DB: 1) | 200 OK [http://localhost/admin/tasks/status?_dc=1298143097694]
+
+
+Processing Admin::EventLogController#list (for 127.0.0.1 at 2011-02-19 19:18:21) [GET]
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mEventLog Load (0.3ms)[0m   [0;1mSELECT * FROM "event_logs" ORDER BY id DESC LIMIT 100[0m
+Rendering template within layouts/admin
+Rendering admin/event_log/list
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_header (1.4ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.3ms)
+Rendered layouts/_about_box (69.9ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 207ms (View: 114, DB: 1) | 200 OK [http://localhost/admin/event-log/list]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 19:18:22) [GET]
+  Parameters: {"_dc"=>"1298143102090"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.3ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mBackgroundJob Load (0.2ms)[0m   [0;1mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 100ms (View: 0, DB: 2) | 200 OK [http://localhost/admin/tasks/status?_dc=1298143102090]
+
+
+Processing SessionsController#destroy (for 127.0.0.1 at 2011-02-19 19:18:36) [GET]
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mEventLog Create (0.9ms)[0m   [0;1mINSERT INTO "event_logs" ("created_at", "level", "params", "message") VALUES('2011-02-19 19:18:36', 1, '{:
+login"
+admin', 'user.logout')[0m
+User admin is logged out.
+  [4;35;1mSQL (0.3ms)[0m   [0mSELECT count(*) AS count_all FROM "event_logs" [0m
+  [4;36;1mUser Update (1.0ms)[0m   [0;1mUPDATE "users" SET "updated_at" = '2011-02-19 19:18:37', "remember_token" = NULL, "remember_token_expires_at" = NULL WHERE "id" = 1[0m
+Cookie set: auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
+Redirected to /
+Completed in 393ms (DB: 3) | 302 Found [http://localhost/logout]
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2011-02-19 19:18:37) [GET]
+Rendering template within layouts/application
+Rendering sessions/new
+Rendered layouts/_header (1.3ms)
+Rendered layouts/_top_header (0.4ms)
+Rendered layouts/_about_box (0.6ms)
+Rendered layouts/_footer (0.1ms)
+Completed in 74ms (View: 15, DB: 0) | 200 OK [http://localhost/]
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2011-02-19 19:18:56) [POST]
+  Parameters: {"remember_me"=>"on", "locale"=>"fr", "login"=>"hkairi", "password"=>"passer"}
+Cookie set: locale=fr; path=/; expires=Sun, 19 Feb 2012 19:18:56 GMT
+Cookie set: auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."login" = 'hkairi') LIMIT 1[0m
+  [4;36;1mEventLog Create (0.9ms)[0m   [0;1mINSERT INTO "event_logs" ("created_at", "level", "params", "message") VALUES('2011-02-19 19:18:56', 1, '{:
+login"hkairi', 'user.login.ok')[0m
+User hkairi is logged in.
+  [4;35;1mSQL (0.3ms)[0m   [0mSELECT count(*) AS count_all FROM "event_logs" [0m
+  [4;36;1mUser Update (1.1ms)[0m   [0;1mUPDATE "users" SET "updated_at" = '2011-02-19 19:18:56', "remember_token" = '0bea26d05097b4406c574cd3955b357fbbdf2cac', "remember_token_expires_at" = '2011-03-05 19:18:56' WHERE "id" = 2[0m
+Cookie set: auth_token=0bea26d05097b4406c574cd3955b357fbbdf2cac; path=/; expires=Sat, 05 Mar 2011 19:18:56 GMT
+Completed in 349ms (View: 0, DB: 3) | 200 OK [http://localhost/login]
+
+
+Processing Admin::DashboardController#index (for 127.0.0.1 at 2011-02-19 19:18:56) [GET]
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "users" [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT count(*) AS count_all FROM "hardware_servers" [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "virtual_servers" [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (state = 'running') [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (state = 'stopped') [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "virtual_servers" WHERE (expiration_date < '2011-02-19') [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "requests" WHERE (opened = 't') [0m
+Cache hit: updates_date ({})
+Cache hit: updates ({:force=>false})
+Rendering template within layouts/admin
+Rendering admin/dashboard/index
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_header (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.4ms)
+Rendered layouts/_about_box (0.6ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 156ms (View: 40, DB: 2) | 200 OK [http://localhost/admin/dashboard]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 19:18:57) [GET]
+  Parameters: {"_dc"=>"1298143137277"}
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.2ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mBackgroundJob Load (0.2ms)[0m   [0mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 95ms (View: 0, DB: 1) | 200 OK [http://localhost/admin/tasks/status?_dc=1298143137277]
+
+
+Processing Admin::TasksController#list (for 127.0.0.1 at 2011-02-19 19:19:46) [GET]
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.2ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mBackgroundJob Load (0.2ms)[0m   [0mSELECT * FROM "background_jobs" ORDER BY id DESC LIMIT 100[0m
+Rendering template within layouts/admin
+Rendering admin/tasks/list
+Rendered layouts/_header (1.4ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.4ms)
+Rendered layouts/_about_box (0.7ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 216ms (View: 51, DB: 1) | 200 OK [http://localhost/admin/tasks/list]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 19:19:47) [GET]
+  Parameters: {"_dc"=>"1298143186960"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mBackgroundJob Load (0.2ms)[0m   [0;1mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 93ms (View: 0, DB: 1) | 200 OK [http://localhost/admin/tasks/status?_dc=1298143186960]
+
+
+Processing Admin::UsersController#list (for 127.0.0.1 at 2011-02-19 19:19:48) [GET]
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.3ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mUser Load (0.4ms)[0m   [0;1mSELECT * FROM "users" [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+Rendering template within layouts/admin
+Rendering admin/users/list
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" [0m
+Rendered layouts/_header (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.3ms)
+Rendered layouts/_about_box (0.7ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 209ms (View: 45, DB: 2) | 200 OK [http://localhost/admin/users/list]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 19:19:49) [GET]
+  Parameters: {"_dc"=>"1298143189215"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mBackgroundJob Load (0.2ms)[0m   [0;1mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 163ms (View: 0, DB: 1) | 200 OK [http://localhost/admin/tasks/status?_dc=1298143189215]
+
+
+Processing Admin::RequestsController#list (for 127.0.0.1 at 2011-02-19 19:19:51) [GET]
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mPermission Load (0.3ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mHardwareServer Load (0.2ms)[0m   [0;1mSELECT * FROM "hardware_servers" [0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'handle_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mRequest Load (0.2ms)[0m   [0mSELECT * FROM "requests" [0m
+Rendering template within layouts/admin
+Rendering admin/requests/list
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'handle_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'handle_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'handle_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_header (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.3ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_users') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'create_requests') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mPermission Load (0.2ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_logs') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_search (0.7ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+Rendered layouts/_top_header (0.3ms)
+Rendered layouts/_about_box (0.7ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 138ms (View: 42, DB: 2) | 200 OK [http://localhost/admin/requests/list]
+
+
+Processing Admin::TasksController#status (for 127.0.0.1 at 2011-02-19 19:19:52) [GET]
+  Parameters: {"_dc"=>"1298143192108"}
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'manage_hardware_servers') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mHardwareServer Load (0.2ms)[0m   [0mSELECT * FROM "hardware_servers" [0m
+  [4;36;1mPermission Load (0.2ms)[0m   [0;1mSELECT "permissions".* FROM "permissions" INNER JOIN "permissions_roles" ON "permissions".id = "permissions_roles".permission_id WHERE ("permissions"."name" = 'view_tasks') AND ("permissions_roles".role_id = 1 ) LIMIT 1[0m
+  [4;35;1mBackgroundJob Load (0.2ms)[0m   [0mSELECT * FROM "background_jobs" WHERE ("background_jobs"."status" = 1) ORDER BY background_jobs.id DESC LIMIT 1[0m
+Completed in 95ms (View: 0, DB: 1) | 200 OK [http://localhost/admin/tasks/status?_dc=1298143192108]

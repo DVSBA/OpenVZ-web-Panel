@@ -1,0 +1,104 @@
+#!/bin/sh
+###
+# OpenVZ Web Panel startup script
+###
+
+###
+# chkconfig: 345 97 87
+# description: OpenVZ Web Panel startup script
+###
+
+### BEGIN INIT INFO
+# Provides: owp
+# required-start: $network $vz
+# required-stop:
+# Default-Start: 3 4 5
+# Default-Stop: 0 1 2 6
+# Short-Description: OpenVZ Web Panel startup script
+# Description: OpenVZ Web Panel startup script
+### END INIT INFO
+
+# configuration defaults
+if [ -f `dirname $0`/../script/owp ]; then
+  INSTALL_DIR=`dirname $0`/../
+else
+  INSTALL_DIR="/opt/ovz-web-panel/"
+fi
+
+PORT=3000
+IP=0.0.0.0
+SSL=off
+LOCK_FILE=/var/lock/owp
+
+[ -f /etc/owp.conf ] && . /etc/owp.conf
+
+check_environment() {
+  if [ -f /proc/vz/version ]; then
+    ENVIRONMENT="HW-NODE"
+  else
+    ENVIRONMENT="STANDALONE"
+  fi
+}
+
+start() {
+  if [ -f $LOCK_FILE ]; then
+    echo "OpenVZ Web Panel is already running!"
+  else
+    echo  "Starting OpenVZ Web Panel"
+    if [ "x$SSL" = "xon" ]; then
+      ruby $INSTALL_DIR/script/server_ssl webrick -e production -p $PORT -b $IP -d
+    else
+      ruby $INSTALL_DIR/script/server webrick -e production -p $PORT -b $IP -d
+    fi
+    ruby $INSTALL_DIR/utils/watchdog/watchdog.rb start
+    [ "$ENVIRONMENT" = "HW-NODE" ] && ruby $INSTALL_DIR/utils/hw-daemon/hw-daemon.rb start
+    touch $LOCK_FILE
+    sleep 1 # wait a little for forked processes
+    echo "Syncing physical servers state..."
+    ruby $INSTALL_DIR/script/runner -e production "HardwareServer.all.each { |server| server.sync }"
+  fi
+}
+
+stop() {
+  echo "Stopping OpenVZ Web Panel server"
+  PANEL_APP_PID=`ps auxww | grep ruby | grep script/server | awk '{ print $2 }'`
+  [ -n "$PANEL_APP_PID" ] && kill -2 $PANEL_APP_PID
+  [ "$ENVIRONMENT" = "HW-NODE" ] && ruby $INSTALL_DIR/utils/hw-daemon/hw-daemon.rb stop
+  ruby $INSTALL_DIR/utils/watchdog/watchdog.rb stop
+  rm -f $LOCK_FILE
+}
+
+status() {
+  ruby $INSTALL_DIR/utils/watchdog/watchdog.rb status
+  
+  if [ -f $LOCK_FILE ]; then
+    echo "OpenVZ Web Panel is running!"
+    exit 0
+  else
+    echo "OpenVZ Web Panel is NOT running!"
+    exit 1
+  fi
+}
+
+# main()
+check_environment
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  status)
+    status 
+    ;;
+  restart|reload|condrestart)
+    stop
+    start
+    ;;
+  *)
+    echo $"Usage: $0 {start|stop|restart|reload|status}"
+    exit 1
+esac
+
+exit 0
