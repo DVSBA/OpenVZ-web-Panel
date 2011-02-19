@@ -40,4 +40,4 @@ and virtual servers with the OpenVZ virtualization technology.
   - login    : hkairi
   - password : passer 
   
-
+PS : This application uses Rails 2.3.2 and sqlite3 
